@@ -1,4 +1,11 @@
 const BudgetControl = ({ budget }) => {
+  const formatBudgetNumber = (amount) => {
+    return amount.toLocaleString("en-US", {
+      style: "currency",
+      currency: "USD",
+    });
+  };
+
   return (
     <div className="contenedor-presupuesto contenedor sombra dos-columnas">
       <div>
@@ -7,7 +14,15 @@ const BudgetControl = ({ budget }) => {
       <div className="contenido-presupuesto">
         <p>
           <span>Budget:</span>
-          {budget}$
+          {formatBudgetNumber(budget)}
+        </p>
+        <p>
+          <span>Available:</span>
+          {formatBudgetNumber(budget)}
+        </p>
+        <p>
+          <span>Spent:</span>
+          {formatBudgetNumber(budget)}
         </p>
       </div>
     </div>
