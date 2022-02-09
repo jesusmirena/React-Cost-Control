@@ -1,4 +1,5 @@
 import React from "react";
+import BudgetControl from "./BudgetControl";
 import NewBudget from "./NewBudget";
 
 const Header = ({ budget, setBudget, isValidBudget, setIsValidBudget }) => {
@@ -6,7 +7,7 @@ const Header = ({ budget, setBudget, isValidBudget, setIsValidBudget }) => {
     <header>
       <h1>Budget planner</h1>
       {isValidBudget ? (
-        <h1>valid</h1>
+        <BudgetControl budget={budget} />
       ) : (
         <NewBudget
           budget={budget}
