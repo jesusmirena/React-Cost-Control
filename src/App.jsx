@@ -1,5 +1,6 @@
 import { useState } from "react";
 import Header from "./Components/Header";
+import ModalWindow from "./Components/ModalWindow";
 import newExpenseIcon from "./img/nuevo-gasto.svg";
 
 function App() {
@@ -27,7 +28,7 @@ function App() {
           />
         </div>
       )}
-      {modal && <p>modal</p>}
+      {modal && <ModalWindow setModal={setModal} />}
     </div>
   );
 }
