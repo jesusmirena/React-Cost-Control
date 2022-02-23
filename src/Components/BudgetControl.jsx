@@ -1,4 +1,18 @@
-const BudgetControl = ({ budget }) => {
+import { useEffect, useState } from "react";
+
+const BudgetControl = ({ budget, expenses }) => {
+  const [available, setAvailable] = useState(0);
+  const [spent, setSpent] = useState(0);
+
+  useEffect(() => {
+    const totalSpent = expenses.reduce(
+      (total, expense) => expense.amount + total,
+      0
+    );
+
+    setSpent(totalSpent);
+  }, [expenses]);
+
   const formatBudgetNumber = (amount) => {
     return amount.toLocaleString("en-US", {
       style: "currency",
@@ -18,11 +32,11 @@ const BudgetControl = ({ budget }) => {
         </p>
         <p>
           <span>Available:</span>
-          {formatBudgetNumber(budget)}
+          {formatBudgetNumber(available)}
         </p>
         <p>
           <span>Spent:</span>
-          {formatBudgetNumber(budget)}
+          {formatBudgetNumber(spent)}
         </p>
       </div>
     </div>
