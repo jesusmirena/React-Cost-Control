@@ -1,4 +1,12 @@
 import { formatDate } from "../helpers";
+import {
+  LeadingActions,
+  SwipeableList,
+  SwipeableListItem,
+  SwipeAction,
+  TrailingActions,
+} from "react-swipeable-list";
+import "react-swipeable-list/dist/styles.css";
 import savingsIcon from "../img/icono_ahorro.svg";
 import foodIcon from "../img/icono_comida.svg";
 import homeIcon from "../img/icono_casa.svg";
@@ -21,19 +29,23 @@ const Expense = ({ expense }) => {
   const { category, name, amount, id, date } = expense;
 
   return (
-    <div className="gasto sombra">
-      <div className="contenido-gasto">
-        <img src={iconDictionary[category]} alt="expense icon" />
-        <div className="descripcion-gasto">
-          <p className="categoria">{category}</p>
-          <p className="nombre-gasto">{name}</p>
-          <p className="fecha-gasto">
-            Added on: <span>{formatDate(date)}</span>
-          </p>
+    <SwipeableList>
+      <SwipeableListItem>
+        <div className="gasto sombra">
+          <div className="contenido-gasto">
+            <img src={iconDictionary[category]} alt="expense icon" />
+            <div className="descripcion-gasto">
+              <p className="categoria">{category}</p>
+              <p className="nombre-gasto">{name}</p>
+              <p className="fecha-gasto">
+                Added on: <span>{formatDate(date)}</span>
+              </p>
+            </div>
+          </div>
+          <p className="cantidad-gasto">${amount}</p>
         </div>
-      </div>
-      <p className="cantidad-gasto">${amount}</p>
-    </div>
+      </SwipeableListItem>
+    </SwipeableList>
   );
 };
 
