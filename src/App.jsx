@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import Header from "./Components/Header";
 import ExpensesList from "./Components/ExpensesList";
 import ModalWindow from "./Components/ModalWindow";
+import Filters from "./Components/Filters";
 import { generateId } from "./helpers";
 import newExpenseIcon from "./img/nuevo-gasto.svg";
 
@@ -22,6 +23,8 @@ function App() {
 
   const [editExpense, seteditExpense] = useState({});
 
+  const [filter, setFilter] = useState("");
+
   useEffect(() => {
     if (Object.keys(editExpense).length > 0) {
       setModal(true);
@@ -39,6 +42,12 @@ function App() {
   useEffect(() => {
     localStorage.setItem("expenses", JSON.stringify(expenses) ?? []);
   }, [expenses]);
+
+  useEffect(() => {
+    if (filter) {
+      //Filter expenses by category
+    }
+  }, [filter]);
 
   useEffect(() => {
     const budgetLS = Number(localStorage.getItem("budget")) ?? 0;
@@ -93,6 +102,7 @@ function App() {
       {isValidBudget && (
         <>
           <main>
+            <Filters filter={filter} setFilter={setFilter} />
             <ExpensesList
               expenses={expenses}
               seteditExpense={seteditExpense}
