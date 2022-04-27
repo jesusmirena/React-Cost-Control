@@ -18,12 +18,17 @@ function App() {
 
   useEffect(() => {
     if (Object.keys(editExpense).length > 0) {
-      handleNewExpense();
+      setModal(true);
+
+      setTimeout(() => {
+        setAnimateModal(true);
+      }, 200);
     }
   }, [editExpense]);
 
   const handleNewExpense = () => {
     setModal(true);
+    seteditExpense({});
     setTimeout(() => {
       setAnimateModal(true);
     }, 200);
@@ -52,7 +57,11 @@ function App() {
       {isValidBudget && (
         <>
           <main>
-            <ExpensesList expenses={expenses} seteditExpense={seteditExpense} />
+            <ExpensesList
+              expenses={expenses}
+              seteditExpense={seteditExpense}
+              editExpense={editExpense}
+            />
           </main>
 
           <div className="nuevo-gasto">
@@ -70,6 +79,7 @@ function App() {
           animateModal={animateModal}
           setAnimateModal={setAnimateModal}
           saveExpense={saveExpense}
+          editExpense={editExpense}
         />
       )}
     </div>

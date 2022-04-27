@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import CloseButton from "../img/cerrar.svg";
 import Message from "./Message";
 
@@ -7,11 +7,20 @@ const ModalWindow = ({
   animateModal,
   setAnimateModal,
   saveExpense,
+  editExpense,
 }) => {
   const [name, setName] = useState("");
   const [amount, setAmount] = useState("");
   const [category, setCategory] = useState("");
   const [message, setMessage] = useState("");
+
+  useEffect(() => {
+    if (Object.keys(editExpense).length > 0) {
+      setName(editExpense.name);
+      setAmount(editExpense.amount);
+      setCategory(editExpense.category);
+    }
+  }, []);
 
   const hideModalWindow = () => {
     setAnimateModal(false);
