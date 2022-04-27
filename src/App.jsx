@@ -25,7 +25,7 @@ function App() {
 
   const [filter, setFilter] = useState("");
 
-  const [expensesFiltered, setExpensesFiltered] = useState([]);
+  const [filteredExpenses, setFilteredExpenses] = useState([]);
 
   useEffect(() => {
     if (Object.keys(editExpense).length > 0) {
@@ -50,7 +50,7 @@ function App() {
       const expensesByCategory = expenses.filter(
         (expense) => expense.category === filter
       );
-      setExpensesFiltered(expensesByCategory);
+      setFilteredExpenses(expensesByCategory);
     }
   }, [filter]);
 
@@ -113,6 +113,8 @@ function App() {
               seteditExpense={seteditExpense}
               editExpense={editExpense}
               deleteExpense={deleteExpense}
+              filter={filter}
+              filteredExpenses={filteredExpenses}
             />
           </main>
 
