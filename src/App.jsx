@@ -41,6 +41,7 @@ function App() {
         expenseState.id === expense.id ? expense : expenseState
       );
       setExpenses(updatedExpenses);
+      seteditExpense({});
     } else {
       //New expense
       expense.id = generateId();
