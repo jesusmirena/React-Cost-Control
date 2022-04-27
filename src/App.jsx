@@ -25,6 +25,8 @@ function App() {
 
   const [filter, setFilter] = useState("");
 
+  const [expensesFiltered, setExpensesFiltered] = useState([]);
+
   useEffect(() => {
     if (Object.keys(editExpense).length > 0) {
       setModal(true);
@@ -45,7 +47,10 @@ function App() {
 
   useEffect(() => {
     if (filter) {
-      //Filter expenses by category
+      const expensesByCategory = expenses.filter(
+        (expense) => expense.category === filter
+      );
+      setExpensesFiltered(expensesByCategory);
     }
   }, [filter]);
 
