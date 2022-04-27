@@ -40,8 +40,9 @@ const BudgetControl = ({ budget, expenses }) => {
           value={percentage}
           text={`${percentage} % spent`}
           styles={buildStyles({
-            pathColor: "#3b82f6",
+            pathColor: percentage > 100 ? "#DC2626" : "#3b82f6",
             trailColor: "#f5f5f5",
+            textColor: percentage > 100 ? "#DC2626" : "#3b82f6",
           })}
         />
       </div>
@@ -50,7 +51,7 @@ const BudgetControl = ({ budget, expenses }) => {
           <span>Budget:</span>
           {formatBudgetNumber(budget)}
         </p>
-        <p>
+        <p className={`${available < 0 ? "negativo" : ""}`}>
           <span>Available:</span>
           {formatBudgetNumber(available)}
         </p>
