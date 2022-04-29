@@ -1,12 +1,12 @@
+import { useSelector } from "react-redux";
 import Expense from "./Expense";
 
-const ExpensesList = ({
-  expenses,
-  seteditExpense,
-  deleteExpense,
-  filter,
-  filteredExpenses,
-}) => {
+const ExpensesList = ({ deleteExpense, filter }) => {
+  const expenses = useSelector((state) => state.expenses.expenses);
+  const filteredExpenses = useSelector(
+    (state) => state.expenses.filteredExpenses
+  );
+
   return (
     <div className="listado-gastos contenedor">
       {filter ? (
@@ -18,7 +18,6 @@ const ExpensesList = ({
             <Expense
               key={expense.id}
               expense={expense}
-              seteditExpense={seteditExpense}
               deleteExpense={deleteExpense}
             />
           ))}
@@ -30,7 +29,6 @@ const ExpensesList = ({
             <Expense
               key={expense.id}
               expense={expense}
-              seteditExpense={seteditExpense}
               deleteExpense={deleteExpense}
             />
           ))}

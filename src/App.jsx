@@ -5,27 +5,31 @@ import ModalWindow from "./Components/ModalWindow";
 import Filters from "./Components/Filters";
 import { generateId } from "./helpers";
 import newExpenseIcon from "./img/nuevo-gasto.svg";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  setEditExpenseAction,
+  setExpensesAction,
+  setFilteredExpensesAction,
+  setIsValidBudgetAction,
+} from "./Redux/Reducers/ExpensesReducer";
 
 function App() {
-  const [expenses, setExpenses] = useState(
-    localStorage.getItem("expenses")
-      ? JSON.parse(localStorage.getItem("expenses"))
-      : []
-  );
-  const [budget, setBudget] = useState(
-    Number(localStorage.getItem("budget")) ?? 0
+  const dispatch = useDispatch();
+
+  //Redux states
+  const expenses = useSelector((state) => state.expenses.expenses);
+  const budget = useSelector((state) => state.expenses.budget);
+  const editExpense = useSelector((state) => state.expenses.editExpense);
+  const isValidBudget = useSelector((state) => state.expenses.isValidBudget);
+  const filteredExpenses = useSelector(
+    (state) => state.expenses.filteredExpenses
   );
 
-  const [isValidBudget, setIsValidBudget] = useState(false);
-
+  //Local states
   const [modal, setModal] = useState(false);
   const [animateModal, setAnimateModal] = useState(false);
 
-  const [editExpense, seteditExpense] = useState({});
-
   const [filter, setFilter] = useState("");
-
-  const [filteredExpenses, setFilteredExpenses] = useState([]);
 
   useEffect(() => {
     if (Object.keys(editExpense).length > 0) {
@@ -50,20 +54,22 @@ function App() {
       const expensesByCategory = expenses.filter(
         (expense) => expense.category === filter
       );
-      setFilteredExpenses(expensesByCategory);
+
+      dispatch(setFilteredExpensesAction(expensesByCategory));
     }
   }, [filter]);
 
   useEffect(() => {
     const budgetLS = Number(localStorage.getItem("budget")) ?? 0;
     if (budgetLS > 0) {
-      setIsValidBudget(true);
+      dispatch(setIsValidBudgetAction(true));
     }
   }, []);
 
   const handleNewExpense = () => {
     setModal(true);
-    seteditExpense({});
+
+    dispatch(setEditExpenseAction({}));
     setTimeout(() => {
       setAnimateModal(true);
     }, 200);
@@ -75,13 +81,16 @@ function App() {
       const updatedExpenses = expenses.map((expenseState) =>
         expenseState.id === expense.id ? expense : expenseState
       );
-      setExpenses(updatedExpenses);
-      seteditExpense({});
+
+      dispatch(setExpensesAction(updatedExpenses));
+
+      dispatch(setEditExpenseAction({}));
     } else {
       //New expense
       expense.id = generateId();
       expense.date = Date.now();
-      setExpenses([...expenses, expense]);
+
+      dispatch(setExpensesAction([...expenses, expense]));
     }
 
     setAnimateModal(false);
@@ -92,31 +101,17 @@ function App() {
 
   const deleteExpense = (id) => {
     const updatedExpenses = expenses.filter((expense) => expense.id !== id);
-    setExpenses(updatedExpenses);
+    dispatch(setExpensesAction(updatedExpenses));
   };
 
   return (
     <div className={modal ? "fijar" : ""}>
-      <Header
-        expenses={expenses}
-        setExpenses={setExpenses}
-        budget={budget}
-        setBudget={setBudget}
-        isValidBudget={isValidBudget}
-        setIsValidBudget={setIsValidBudget}
-      />
+      <Header isValidBudget={isValidBudget} />
       {isValidBudget && (
         <>
           <main>
             <Filters filter={filter} setFilter={setFilter} />
-            <ExpensesList
-              expenses={expenses}
-              seteditExpense={seteditExpense}
-              editExpense={editExpense}
-              deleteExpense={deleteExpense}
-              filter={filter}
-              filteredExpenses={filteredExpenses}
-            />
+            <ExpensesList deleteExpense={deleteExpense} filter={filter} />
           </main>
 
           <div className="nuevo-gasto">
@@ -134,7 +129,6 @@ function App() {
           animateModal={animateModal}
           setAnimateModal={setAnimateModal}
           saveExpense={saveExpense}
-          seteditExpense={seteditExpense}
           editExpense={editExpense}
         />
       )}

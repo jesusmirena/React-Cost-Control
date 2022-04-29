@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
+import { useDispatch } from "react-redux";
 import CloseButton from "../img/cerrar.svg";
+import { setEditExpenseAction } from "../Redux/Reducers/ExpensesReducer";
 import Message from "./Message";
 
 const ModalWindow = ({
@@ -8,8 +10,9 @@ const ModalWindow = ({
   setAnimateModal,
   saveExpense,
   editExpense,
-  seteditExpense,
 }) => {
+  const dispatch = useDispatch();
+
   const [id, setId] = useState("");
   const [name, setName] = useState("");
   const [amount, setAmount] = useState("");
@@ -29,7 +32,8 @@ const ModalWindow = ({
 
   const hideModalWindow = () => {
     setAnimateModal(false);
-    seteditExpense({});
+
+    dispatch(setEditExpenseAction({}));
     setTimeout(() => {
       setModal(false);
     }, 400);

@@ -14,6 +14,8 @@ import miscellaneousIcon from "../img/icono_gastos.svg";
 import healthIcon from "../img/icono_salud.svg";
 import entertaimentIcon from "../img/icono_ocio.svg";
 import subscriptionsIcon from "../img/icono_suscripciones.svg";
+import { useDispatch } from "react-redux";
+import { setEditExpenseAction } from "../Redux/Reducers/ExpensesReducer";
 
 const iconDictionary = {
   savings: savingsIcon,
@@ -25,11 +27,20 @@ const iconDictionary = {
   subscriptions: subscriptionsIcon,
 };
 
-const Expense = ({ expense, seteditExpense, deleteExpense }) => {
+const Expense = ({ expense, deleteExpense }) => {
   const { category, name, amount, id, date } = expense;
+  const dispatch = useDispatch();
+
   const leadingActions = () => (
     <LeadingActions>
-      <SwipeAction onClick={() => seteditExpense(expense)}>Edit</SwipeAction>
+      <SwipeAction
+        onClick={() => {
+          //AQUI
+          dispatch(setEditExpenseAction(expense));
+        }}
+      >
+        Edit
+      </SwipeAction>
     </LeadingActions>
   );
 
