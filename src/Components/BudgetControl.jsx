@@ -1,14 +1,19 @@
 import { useEffect, useState } from "react";
 import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  setBudgetAction,
+  setExpensesAction,
+  setIsValidBudgetAction,
+} from "../Redux/Reducers/ExpensesReducer";
 
-const BudgetControl = ({
-  budget,
-  expenses,
-  setExpenses,
-  setBudget,
-  setIsValidBudget,
-}) => {
+const BudgetControl = () => {
+  const dispatch = useDispatch();
+
+  const budget = useSelector((state) => state.expenses.budget);
+  const expenses = useSelector((state) => state.expenses.expenses);
+
   const [percentage, setPercentage] = useState(0);
   const [available, setAvailable] = useState(0);
   const [spent, setSpent] = useState(0);
@@ -42,9 +47,11 @@ const BudgetControl = ({
   const handleResetBudget = () => {
     const response = confirm("Do you want to reset the budget?");
     if (response) {
-      setBudget(0);
-      setExpenses([]);
-      setIsValidBudget(false);
+      dispatch(setBudgetAction(0));
+
+      dispatch(setExpensesAction([]));
+
+      dispatch(setIsValidBudgetAction(false));
     }
   };
   return (

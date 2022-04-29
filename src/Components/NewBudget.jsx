@@ -1,18 +1,29 @@
 import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  setBudgetAction,
+  setIsValidBudgetAction,
+} from "../Redux/Reducers/ExpensesReducer";
 import Message from "./Message";
 
-const NewBudget = ({ budget, setBudget, setIsValidBudget }) => {
+const NewBudget = () => {
+  const dispatch = useDispatch();
+
   const [message, setMessage] = useState("");
+  const [budgetForm, setbudgetForm] = useState(0);
 
   const handleBudget = (e) => {
     e.preventDefault();
-    if (!budget || budget < 0) {
+    if (!budgetForm || budgetForm < 0) {
       setMessage("It's not a valid budget");
       return;
     }
     setMessage("");
-    setIsValidBudget(true);
+
+    dispatch(setIsValidBudgetAction(true));
+    dispatch(setBudgetAction(budgetForm));
   };
+
   return (
     <div className="contenedor-presupuesto contenedor sombra">
       <form onSubmit={handleBudget} className="formulario">
@@ -23,8 +34,8 @@ const NewBudget = ({ budget, setBudget, setIsValidBudget }) => {
             min={0}
             className="nuevo-presupuesto"
             placeholder="Add your budget"
-            value={budget}
-            onChange={(e) => setBudget(Number(e.target.value))}
+            value={budgetForm}
+            onChange={(e) => setbudgetForm(Number(e.target.value))}
           />
         </div>
         <input type="submit" value="Add" />
